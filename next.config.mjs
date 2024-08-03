@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // basePath: '/portal',
+  basePath: '/portal',
+  output: 'standalone',
   images: {
     remotePatterns: [
       {

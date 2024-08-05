@@ -1,14 +1,14 @@
-import { UseChatHelpers } from 'ai/react'
+import { UseChatHelpers } from 'ai/react';
 
-import { Button } from '@/components/ui/button'
-import { IconArrowRight } from '@/components/ui/icons'
+import { Button } from '@/components/ui/button';
+import { IconArrowRight } from '@/components/ui/icons';
 
 const exampleMessages = [
   {
     heading: 'Request access to app',
     message: `I need SSH access to uscentral prod servers.`
   }
-]
+];
 
 export function EmptyScreen({ setInput }: Pick<UseChatHelpers, 'setInput'>) {
   return (
@@ -36,5 +36,5 @@ export function EmptyScreen({ setInput }: Pick<UseChatHelpers, 'setInput'>) {
         </div>
       </div>
     </div>
-  )
+  );
 }

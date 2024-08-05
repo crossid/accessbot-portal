@@ -1,23 +1,23 @@
-import { notFound, redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation';
 
 // import { getChat } from '@/app/actions'
 // import { auth } from '@/auth'
-import { getConversation } from '@/app/actions'
-import { auth } from '@/auth'
-import { Chat } from '@/components/chat'
-import { mapBackendMessageToClientMessage } from '@/lib/types_utils'
-import { Metadata } from 'next'
+import { getConversation } from '@/app/actions';
+import { auth } from '@/auth';
+import { Chat } from '@/components/chat';
+import { mapBackendMessageToClientMessage } from '@/lib/types_utils';
+import { Metadata } from 'next';
 
 export interface ChatPageProps {
   params: {
-    id: string
-  }
+    id: string;
+  };
 }
 
 export async function generateMetadata({
   params
 }: ChatPageProps): Promise<Metadata> {
-  const session = await auth()
+  const session = await auth();
 
   //   if (!session?.user?.id) {
   //     return {}
@@ -27,24 +27,24 @@ export async function generateMetadata({
   //   // return {
   //   //   title: chat?.title.toString().slice(0, 50) ?? 'Chat'
   //   // }
-  return {}
+  return {};
 }
 
 export default async function ChatPage({ params }: ChatPageProps) {
-  const session = await auth()
+  const session = await auth();
 
   if (!session?.user?.id) {
-    redirect(`/sign-in?next=/conversation/${params.id}`)
+    redirect(`/sign-in?next=/conversation/${params.id}`);
   }
 
   const conversation = await getConversation(
     params.id,
     session.user.id,
     session.user.accessToken
-  )
+  );
 
   if (!conversation) {
-    notFound()
+    notFound();
   }
 
   return (
@@ -54,5 +54,5 @@ export default async function ChatPage({ params }: ChatPageProps) {
         mapBackendMessageToClientMessage(m)
       )}
     />
-  )
+  );
 }

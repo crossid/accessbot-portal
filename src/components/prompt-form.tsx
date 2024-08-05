@@ -1,21 +1,21 @@
-import { Button, buttonVariants } from '@/components/ui/button'
-import { IconArrowElbow, IconPlus } from '@/components/ui/icons'
+import { Button, buttonVariants } from '@/components/ui/button';
+import { IconArrowElbow, IconPlus } from '@/components/ui/icons';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger
-} from '@/components/ui/tooltip'
-import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
-import { cn } from '@/lib/utils'
-import { UseChatHelpers } from 'ai/react'
-import { useRouter } from 'next/navigation'
-import * as React from 'react'
-import Textarea from 'react-textarea-autosize'
+} from '@/components/ui/tooltip';
+import { useEnterSubmit } from '@/lib/hooks/use-enter-submit';
+import { cn } from '@/lib/utils';
+import { UseChatHelpers } from 'ai/react';
+import { useRouter } from 'next/navigation';
+import * as React from 'react';
+import Textarea from 'react-textarea-autosize';
 
 export interface PromptProps
   extends Pick<UseChatHelpers, 'input' | 'setInput'> {
-  onSubmit: (value: string) => void
-  isLoading: boolean
+  onSubmit: (value: string) => void;
+  isLoading: boolean;
 }
 
 export function PromptForm({
@@ -24,35 +24,35 @@ export function PromptForm({
   setInput,
   isLoading
 }: PromptProps) {
-  const { formRef, onKeyDown } = useEnterSubmit()
-  const inputRef = React.useRef<HTMLTextAreaElement>(null)
-  const router = useRouter()
+  const { formRef, onKeyDown } = useEnterSubmit();
+  const inputRef = React.useRef<HTMLTextAreaElement>(null);
+  const router = useRouter();
   React.useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus()
+      inputRef.current.focus();
     }
-  }, [])
+  }, []);
 
   return (
     <form
       onSubmit={async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         if (!input?.trim()) {
-          return
+          return;
         }
-        setInput('')
-        await onSubmit(input)
+        setInput('');
+        await onSubmit(input);
       }}
       ref={formRef}
     >
-      <div className="relative flex flex-col w-full px-8 overflow-hidden max-h-60 grow bg-background sm:rounded-md sm:border sm:px-12">
+      <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12">
         <Tooltip>
           <TooltipTrigger asChild>
             <button
               onClick={(e) => {
-                e.preventDefault()
-                router.refresh()
-                router.push('/')
+                e.preventDefault();
+                router.refresh();
+                router.push('/');
               }}
               className={cn(
                 buttonVariants({ size: 'sm', variant: 'outline' }),
@@ -93,5 +93,5 @@ export function PromptForm({
         </div>
       </div>
     </form>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-'use server'
+'use server';
 
-import { auth } from '@/auth'
-import { Conversation, ListModels } from '@/lib/types'
-import { getBackendAPIURL } from '@/lib/urls'
+import { auth } from '@/auth';
+import { Conversation, ListModels } from '@/lib/types';
+import { getBackendAPIURL } from '@/lib/urls';
 
 export async function getConversation(
   id: string,
@@ -16,9 +16,9 @@ export async function getConversation(
         Authorization: `Bearer ${accessToken}`
       }
     }
-  )
+  );
 
-  return resp
+  return resp;
 }
 
 export async function listConversations(
@@ -26,7 +26,7 @@ export async function listConversations(
   limit: number = 1000,
   offset: number = 0
 ) {
-  const session = await auth()
+  const session = await auth();
   const resp = fetcher<ListModels<Conversation>>(
     `/conversations?links=messages`,
     {
@@ -34,9 +34,9 @@ export async function listConversations(
         Authorization: `Bearer ${session?.user.accessToken}`
       }
     }
-  )
+  );
 
-  return resp
+  return resp;
 }
 
 export async function removeConversation() {}
@@ -45,23 +45,23 @@ export async function fetcher<JSON = any>(
   info: RequestInfo,
   init?: RequestInit
 ): Promise<JSON> {
-  const res = await fetch(`${getBackendAPIURL()}${info}`, init)
+  const res = await fetch(`${getBackendAPIURL()}${info}`, init);
 
   if (!res.ok) {
     if (res.status === 404) {
-      return Promise.resolve(null)
+      return Promise.resolve(null);
     }
-    const json = await res.json()
+    const json = await res.json();
     if (json.detail) {
       const error = new Error(json.detail) as Error & {
-        status: number
-      }
-      error.status = res.status
-      throw error
+        status: number;
+      };
+      error.status = res.status;
+      throw error;
     } else {
-      throw new Error('An unexpected error occurred')
+      throw new Error('An unexpected error occurred');
     }
   }
 
-  return res.json()
+  return res.json();
 }

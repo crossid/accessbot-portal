@@ -1,10 +1,10 @@
-import { Header } from '@/components/header'
-import { Toaster } from '@/components/ui/toaster'
-import { Providers } from '@/lib/provider'
-import { cn } from '@/lib/utils'
-import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
-import './globals.css'
+import { Header } from '@/components/header';
+import { Toaster } from '@/components/ui/toaster';
+import { Providers } from '@/lib/provider';
+import { cn } from '@/lib/utils';
+import { GeistMono } from 'geist/font/mono';
+import { GeistSans } from 'geist/font/sans';
+import './globals.css';
 
 export const metadata = {
   metadataBase: new URL(`https://${process.env.BASE_URL}`),
@@ -19,17 +19,17 @@ export const metadata = {
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png'
   }
-}
+};
 
 export const viewport = {
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: 'white' },
     { media: '(prefers-color-scheme: dark)', color: 'slate' }
   ]
-}
+};
 
 interface RootLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
@@ -48,13 +48,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex flex-col min-h-screen">
+          <div className="flex min-h-screen flex-col">
             <Header />
-            <main className="flex flex-col flex-1 bg-muted/50">{children}</main>
+            <main className="flex flex-1 flex-col bg-muted/50">{children}</main>
             <Toaster />
           </div>
         </Providers>
       </body>
     </html>
-  )
+  );
 }

@@ -1,13 +1,13 @@
-import { auth } from '@/auth'
-import { Sidebar } from '@/components/sidebar'
+import { auth } from '@/auth';
+import { Sidebar } from '@/components/sidebar';
 
-import { ChatHistory } from '@/components/chat-history'
+import { ChatHistory } from '@/components/chat-history';
 
 export async function SidebarDesktop() {
-  const session = await auth()
+  const session = await auth();
 
   if (!session?.user?.id) {
-    return null
+    return null;
   }
 
   return (
@@ -15,5 +15,5 @@ export async function SidebarDesktop() {
       {/* @ts-ignore */}
       <ChatHistory userId={session.user.id} />
     </Sidebar>
-  )
+  );
 }

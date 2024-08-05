@@ -1,16 +1,16 @@
 // Inspired by Chatbot-UI and modified to fit the needs of this project
 // @see https://github.com/mckaywrigley/chatbot-ui/blob/main/components/Chat/ChatMessage.tsx
 
-import { Message } from 'ai'
-import remarkGfm from 'remark-gfm'
+import { Message } from 'ai';
+import remarkGfm from 'remark-gfm';
 
-import { ChatMessageActions } from '@/components/chat-message-actions'
-import { MemoizedReactMarkdown } from '@/components/markdown'
-import { IconAI, IconUser } from '@/components/ui/icons'
-import { cn } from '@/lib/utils'
+import { ChatMessageActions } from '@/components/chat-message-actions';
+import { MemoizedReactMarkdown } from '@/components/markdown';
+import { IconAI, IconUser } from '@/components/ui/icons';
+import { cn } from '@/lib/utils';
 
 export interface ChatMessageProps {
-  message: Message
+  message: Message;
 }
 
 export function ChatMessage({ message, ...props }: ChatMessageProps) {
@@ -29,13 +29,13 @@ export function ChatMessage({ message, ...props }: ChatMessageProps) {
       >
         {message.role === 'user' ? <IconUser /> : <IconAI />}
       </div>
-      <div className="flex-1 px-1 ml-4 space-y-2 overflow-hidden">
+      <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
         <MemoizedReactMarkdown
           className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
           remarkPlugins={[remarkGfm]}
           components={{
             p({ children }) {
-              return <p className="mb-2 last:mb-0">{children}</p>
+              return <p className="mb-2 last:mb-0">{children}</p>;
             }
           }}
         >
@@ -44,5 +44,5 @@ export function ChatMessage({ message, ...props }: ChatMessageProps) {
         <ChatMessageActions message={message} />
       </div>
     </div>
-  )
+  );
 }

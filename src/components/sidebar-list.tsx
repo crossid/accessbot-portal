@@ -1,19 +1,19 @@
-import { listConversations } from '@/app/actions'
-import { ThemeToggle } from '@/components/theme-toggle'
-import { cache } from 'react'
-import { SidebarItems } from './sidebar-items'
+import { listConversations } from '@/app/actions';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { cache } from 'react';
+import { SidebarItems } from './sidebar-items';
 
 interface SidebarListProps {
-  userId?: string
-  children?: React.ReactNode
+  userId?: string;
+  children?: React.ReactNode;
 }
 
 const loadChats = cache(async (userId?: string) => {
-  return await listConversations(userId)
-})
+  return await listConversations(userId);
+});
 
 export async function SidebarList({ userId }: SidebarListProps) {
-  const result = await loadChats(userId!)
+  const result = await loadChats(userId!);
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
@@ -32,5 +32,5 @@ export async function SidebarList({ userId }: SidebarListProps) {
         <ThemeToggle />
       </div>
     </div>
-  )
+  );
 }

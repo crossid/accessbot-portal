@@ -1,8 +1,8 @@
-import { Chat } from '@/components/chat'
-import { generateID } from '@/lib/utils'
+import { Chat } from '@/components/chat';
+import { generateID } from '@/lib/utils';
 
 export default function IndexPage() {
-  const id = generateID()
+  const id = generateID();
 
-  return <Chat id={id} />
+  return <Chat id={id} />;
 }

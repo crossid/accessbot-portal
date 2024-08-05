@@ -1,24 +1,24 @@
-import { type Session } from 'next-auth'
-import Image from 'next/image'
+import { type Session } from 'next-auth';
+import Image from 'next/image';
 
-import { signOut } from '@/auth'
-import { Button } from '@/components/ui/button'
+import { signOut } from '@/auth';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { IconExternalLink } from '@/components/ui/icons'
+} from '@/components/ui/dropdown-menu';
+import { IconExternalLink } from '@/components/ui/icons';
 
 export interface UserMenuProps {
-  user: Session['user']
+  user: Session['user'];
 }
 
 function getUserInitials(name: string) {
-  const [firstName, lastName] = name.split(' ')
-  return lastName ? `${firstName[0]}${lastName[0]}` : firstName.slice(0, 2)
+  const [firstName, lastName] = name.split(' ');
+  return lastName ? `${firstName[0]}${lastName[0]}` : firstName.slice(0, 2);
 }
 
 export function UserMenu({ user }: UserMenuProps) {
@@ -29,14 +29,14 @@ export function UserMenu({ user }: UserMenuProps) {
           <Button variant="ghost" className="pl-0">
             {user?.image ? (
               <Image
-                className="size-6 transition-opacity duration-300 rounded-full select-none ring-1 ring-zinc-100/10 hover:opacity-80"
+                className="size-6 select-none rounded-full ring-1 ring-zinc-100/10 transition-opacity duration-300 hover:opacity-80"
                 src={user?.image ? `${user.image}` : ''}
                 alt={user.name ?? 'Avatar'}
                 height={48}
                 width={48}
               />
             ) : (
-              <div className="flex items-center justify-center text-xs font-medium uppercase rounded-full select-none size-7 shrink-0 bg-muted/50 text-muted-foreground">
+              <div className="flex size-7 shrink-0 select-none items-center justify-center rounded-full bg-muted/50 text-xs font-medium uppercase text-muted-foreground">
                 {user?.name ? getUserInitials(user?.name) : null}
               </div>
             )}
@@ -54,19 +54,19 @@ export function UserMenu({ user }: UserMenuProps) {
               href="https://crossid.io"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-between w-full text-xs"
+              className="inline-flex w-full items-center justify-between text-xs"
             >
               Crossid Homepage
-              <IconExternalLink className="size-3 ml-auto" />
+              <IconExternalLink className="ml-auto size-3" />
             </a>
           </DropdownMenuItem>
           <form
             action={async () => {
-              'use server'
-              await signOut()
+              'use server';
+              await signOut();
             }}
           >
-            <button className=" relative flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-xs outline-none transition-colors hover:bg-red-500 hover:text-white focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+            <button className="relative flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-xs outline-none transition-colors hover:bg-red-500 hover:text-white focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
               Sign Out
             </button>
           </form>
@@ -76,5 +76,5 @@ export function UserMenu({ user }: UserMenuProps) {
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-  )
+  );
 }

@@ -2,7 +2,7 @@ export type MessageType = 'human' | 'ai'
 
 export interface BackendMessage {
   id: string
-  org_id: string
+  workspace_id: string
   conversation_id: string
   type: MessageType
   content: string
@@ -13,7 +13,7 @@ export type ConversationStatus = 'active'
 
 export interface Conversation {
   id: string
-  org_id: string
+  workspace_id: string
   created_by: string
   status: ConversationStatus
   external_id: string

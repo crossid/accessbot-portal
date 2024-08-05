@@ -6,6 +6,7 @@ import { getConversation } from '@/app/actions'
 import { auth } from '@/auth'
 import { Chat } from '@/components/chat'
 import { mapBackendMessageToClientMessage } from '@/lib/types_utils'
+import { Metadata } from 'next'
 
 export interface ChatPageProps {
   params: {
@@ -48,7 +49,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
 
   return (
     <Chat
-      id={conversation.id}
+      id={conversation.external_id}
       initialMessages={conversation.messages.map((m) =>
         mapBackendMessageToClientMessage(m)
       )}

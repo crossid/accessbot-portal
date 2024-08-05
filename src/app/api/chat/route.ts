@@ -20,14 +20,21 @@ async function errorFromResponse(response: Response, fallback: string) {
 }
 
 function parseStream(): AIStreamParser {
-  let previous = ''
   return (data) => {
     const json = JSON.parse(data) as {
       // run_id: string
       content: string
+      // the graph node that was executed
+      name: string
       // additional_kwargs: object
       type: string
       // example: boolean
+    }
+
+    console.log('stream: ', json)
+
+    if (json.name !== 'Information' && json.name !== 'DataOwner') {
+      return ''
     }
 
     return json.content

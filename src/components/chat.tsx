@@ -21,6 +21,7 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
 
   const { messages, append, reload, stop, isLoading, input, setInput } =
     useChat({
+      api: '/portal/api/chat',
       initialMessages,
       id,
       body: {

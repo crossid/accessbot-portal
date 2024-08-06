@@ -63,6 +63,7 @@ export async function listFetcher<T>(
   const response = await fetcher<FetchResponse<T>>(url, {
     ...init,
     headers: {
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${session?.accessToken}`
     }
   });
@@ -124,6 +125,7 @@ export async function getFetcher<JSON = any>(
     const result = await fetcher<JSON>(info, {
       ...init,
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${session?.accessToken}`
       }
     });
@@ -179,6 +181,7 @@ export async function deleteFetcher(
     ...init,
     method: 'DELETE',
     headers: {
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${session?.accessToken}`
     }
   });
@@ -222,6 +225,7 @@ export async function getConversation(
       `/conversations/${id}?id_type=internal&links=messages`,
       {
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${config.accessToken}`
         }
       }
@@ -245,6 +249,7 @@ export async function createConversation(
   const resp = fetcher<Conversation>('/conversations', {
     method: 'POST',
     headers: {
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${config.accessToken}`
     },
     body: JSON.stringify(conversation)
@@ -265,6 +270,7 @@ export async function listConversations(
     {
       next: { tags: ['conversations'] },
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${session?.accessToken}`
       }
     }

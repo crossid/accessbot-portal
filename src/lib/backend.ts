@@ -260,21 +260,26 @@ export async function createConversation(
 
 export async function listConversations(
   userId: string,
+  query: string = ``,
   limit: number = 1000,
-  offset: number = 0,
-  archived: boolean = false
+  offset: number = 0
 ) {
   const session = await auth();
-  const resp = fetcher<ListModels<Conversation>>(
-    `/conversations?links=messages`,
-    {
-      next: { tags: ['conversations'] },
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${session?.accessToken}`
-      }
+  const params = new URLSearchParams({
+    links: 'messages',
+    q: query,
+    limit: limit.toString(),
+    offset: offset.toString()
+  });
+
+  const url = '/conversations?' + params.toString();
+  const resp = fetcher<ListModels<Conversation>>(url, {
+    next: { tags: ['conversations'] },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${session?.accessToken}`
     }
-  );
+  });
 
   return resp;
 }

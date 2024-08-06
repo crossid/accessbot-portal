@@ -16,7 +16,7 @@ export async function SidebarDesktop() {
         <div className="flex flex-1 flex-col overflow-hidden">
           <div className="flex-1 overflow-auto">
             <div className="space-y-2 px-2 py-4 lg:py-8">
-              <ChatHistory userId={session?.user.id} />
+              <ChatHistory user={session.user} />
             </div>
           </div>
           <div className="flex items-center justify-between p-4">

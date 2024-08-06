@@ -46,7 +46,7 @@ export default async function Page({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const _headers = headers();
-  const ws = await await getWorkspace();
+  const ws = await getWorkspace();
 
   // TODO maybe authjs provides a way to get providers in server
   const providers = await fetch(

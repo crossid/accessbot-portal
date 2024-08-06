@@ -5,7 +5,6 @@ import Textarea from 'react-textarea-autosize';
 
 import { useActions, useUIState } from 'ai/rsc';
 
-import { type AI } from '@/components/chat/chat-actions';
 import { Button } from '@/components/ui/button';
 import { IconArrowElbow, IconPlus } from '@/components/ui/icons';
 import {
@@ -16,6 +15,7 @@ import {
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit';
 import { nanoid } from 'nanoid';
 import { useRouter } from 'next/navigation';
+import { type AI } from './actions';
 import { UserMessage } from './messages';
 
 export function PromptForm({

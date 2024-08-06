@@ -4,17 +4,18 @@ import { cache } from 'react';
 
 interface SidebarListProps {
   userId?: string;
+  userEmail?: string;
   children?: React.ReactNode;
 }
 
-const loadChats = cache(async (userId: string) => {
-  return await listConversations(userId);
+const loadChats = cache(async (userId: string, query: string) => {
+  return await listConversations(userId, query);
 });
 
-export async function SidebarList({ userId }: SidebarListProps) {
-  const result = await loadChats(userId!);
-  // TODO remove once backend supports filtering https://github.com/crossid/accessbot/issues/167
-  result.items = result.items.filter((item) => item.status == 'active');
+export async function SidebarList({ userId, userEmail }: SidebarListProps) {
+  // assignee query is here for admin users
+  const query = `status eq "active" and assignee eq "${userEmail}"`;
+  const result = await loadChats(userId!, query);
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden">

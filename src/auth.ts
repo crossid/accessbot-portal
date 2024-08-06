@@ -11,7 +11,8 @@ function createAuth0() {
     token: { params: { audience: process.env.OAUTH2_AUDIENCE } },
     authorization: {
       params: {
-        scope: 'openid profile email offline_access',
+        scope:
+          'openid profile email offline_access read:conversations update:conversations',
         audience: process.env.OAUTH2_AUDIENCE
       }
     }

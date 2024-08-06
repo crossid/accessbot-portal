@@ -6,12 +6,13 @@ import { SidebarList } from '@/components/sidebar-list';
 import { buttonVariants } from '@/components/ui/button';
 import { IconPlus } from '@/components/ui/icons';
 import { cn } from '@/lib/utils';
+import { ExtendedUser } from '../../../next-auth';
 
 interface ChatHistoryProps {
-  userId?: string;
+  user: ExtendedUser;
 }
 
-export async function ChatHistory({ userId }: ChatHistoryProps) {
+export async function ChatHistory({ user }: ChatHistoryProps) {
   return (
     <div className="flex h-full flex-col">
       <div className="my-4 px-2">
@@ -38,7 +39,7 @@ export async function ChatHistory({ userId }: ChatHistoryProps) {
           </div>
         }
       >
-        <SidebarList userId={userId} />
+        <SidebarList userId={user.id} userEmail={user.email || ''} />
       </React.Suspense>
     </div>
   );

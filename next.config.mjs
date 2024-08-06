@@ -1,19 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/portal',
-  output: 'standalone',
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com'
-      },
-      {
-        protocol: 'https',
-        hostname: 's.gravatar.com'
-      }
-    ]
-  }
+    basePath: '/portal',
+    output: 'standalone',
 }
 
 export default nextConfig

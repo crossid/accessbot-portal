@@ -1,5 +1,4 @@
 import { type Session } from 'next-auth';
-import Image from 'next/image';
 
 import { signOut } from '@/auth';
 import { Button } from '@/components/ui/button';
@@ -10,7 +9,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { IconExternalLink } from '@/components/ui/icons';
 
 export interface UserMenuProps {
   user: Session['user'];
@@ -28,12 +26,12 @@ export function UserMenu({ user }: UserMenuProps) {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="pl-0">
             {user?.image ? (
-              <Image
+              // we don't know the origin of the image as it's per oauth provider
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
                 className="size-6 select-none rounded-full ring-1 ring-zinc-100/10 transition-opacity duration-300 hover:opacity-80"
                 src={user?.image ? `${user.image}` : ''}
                 alt={user.name ?? 'Avatar'}
-                height={48}
-                width={48}
               />
             ) : (
               <div className="flex size-7 shrink-0 select-none items-center justify-center rounded-full bg-muted/50 text-xs font-medium uppercase text-muted-foreground">
@@ -57,22 +55,19 @@ export function UserMenu({ user }: UserMenuProps) {
               className="inline-flex w-full items-center justify-between text-xs"
             >
               Crossid Homepage
-              <IconExternalLink className="ml-auto size-3" />
+              {/* <IconExternalLink className="size-3 ml-auto" /> */}
             </a>
           </DropdownMenuItem>
           <form
             action={async () => {
               'use server';
-              await signOut();
+              await signOut({ redirectTo: '/' });
             }}
           >
             <button className="relative flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-xs outline-none transition-colors hover:bg-red-500 hover:text-white focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
               Sign Out
             </button>
           </form>
-          {/* <DropdownMenuItem onClick={() => signOut()} className="text-xs">
-            Log Out
-          </DropdownMenuItem> */}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

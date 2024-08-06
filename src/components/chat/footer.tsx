@@ -12,9 +12,8 @@ export function FooterText({ className, ...props }: React.ComponentProps<'p'>) {
       )}
       {...props}
     >
-      AI{' '}
-      <ExternalLink href="https://accessbot.crossid.io">AccessBot</ExternalLink>{' '}
-      .
+      Streamline access requests with the help of access-bot. Powered by{' '}
+      <ExternalLink href="https://www.crossid.io">Crossid.io</ExternalLink>.
     </p>
   );
 }

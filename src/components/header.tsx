@@ -1,17 +1,12 @@
 import Link from 'next/link';
 
-import { Button, buttonVariants } from '@/components/ui/button';
-import {
-  IconAccessBotChat,
-  IconGitHub,
-  IconSeparator
-} from '@/components/ui/icons';
+import { Button } from '@/components/ui/button';
+import { IconAccessBotChat, IconSeparator } from '@/components/ui/icons';
 import { UserMenu } from '@/components/user-menu';
-import { cn } from '@/lib/utils';
 import React from 'react';
 // import { ChatHistory } from './chat-history'
 // import { SidebarMobile } from './sidebar-mobile'
-import { auth } from '../auth';
+import { auth } from '@/auth';
 import { SidebarToggle } from './sidebar-toggle';
 
 async function UserOrLogin() {
@@ -55,7 +50,8 @@ export function Header() {
         </React.Suspense>
       </div>
       <div className="flex items-center justify-end space-x-2">
-        <a
+        {/* example how to add a button to the right */}
+        {/* <a
           target="_blank"
           href="https://github.com/crossid/accessbot"
           rel="noopener noreferrer"
@@ -63,16 +59,7 @@ export function Header() {
         >
           <IconGitHub />
           <span className="ml-2 hidden md:flex">GitHub</span>
-        </a>
-        <a
-          href="https://accessbot.crossid.io"
-          target="_blank"
-          className={cn(buttonVariants())}
-        >
-          {/* <IconCrossid className="mr-2" /> */}
-          <span className="hidden sm:block">crossid.io</span>
-          <span className="sm:hidden">Web Site</span>
-        </a>
+        </a> */}
       </div>
     </header>
   );

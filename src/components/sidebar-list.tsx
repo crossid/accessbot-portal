@@ -1,19 +1,20 @@
-import { listConversations } from '@/app/actions';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { SidebarItems } from '@/components/sidebar-items';
+import { listConversations } from '@/lib/backend';
 import { cache } from 'react';
-import { SidebarItems } from './sidebar-items';
 
 interface SidebarListProps {
   userId?: string;
   children?: React.ReactNode;
 }
 
-const loadChats = cache(async (userId?: string) => {
+const loadChats = cache(async (userId: string) => {
   return await listConversations(userId);
 });
 
 export async function SidebarList({ userId }: SidebarListProps) {
   const result = await loadChats(userId!);
+  // TODO remove once backend supports filtering https://github.com/crossid/accessbot/issues/167
+  result.items = result.items.filter((item) => item.status == 'active');
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
@@ -27,9 +28,6 @@ export async function SidebarList({ userId }: SidebarListProps) {
             <p className="text-sm text-muted-foreground">No chat history</p>
           </div>
         )}
-      </div>
-      <div className="flex items-center justify-between p-4">
-        <ThemeToggle />
       </div>
     </div>
   );

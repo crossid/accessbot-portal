@@ -1,10 +1,8 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { useToast } from './ui/use-toast';
 
-import { ServerActionResult, type Conversation } from '@/lib/types';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,22 +14,23 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { IconSpinner, IconTrash } from '@/components/ui/icons';
+import { IconArchive, IconSpinner } from '@/components/ui/icons';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip';
+import { customRevalidateTag } from '@/lib/revalidate-tag';
+import { ServerActionResult, type Conversation } from '@/lib/types';
 
 interface SidebarActionsProps {
   chat: Conversation;
-  removeChat: (args: { id: string; path: string }) => ServerActionResult<void>;
+  archiveChat: (args: { id: string }) => ServerActionResult<void>;
 }
 
-export function SidebarActions({ chat, removeChat }: SidebarActionsProps) {
-  const router = useRouter();
+export function SidebarActions({ chat, archiveChat }: SidebarActionsProps) {
   const { toast } = useToast();
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [archiveDialogOpen, setArchiveDialogOpen] = React.useState(false);
   const [isRemovePending, startRemoveTransition] = React.useTransition();
 
   return (
@@ -43,22 +42,21 @@ export function SidebarActions({ chat, removeChat }: SidebarActionsProps) {
               variant="ghost"
               className="size-7 p-0 hover:bg-background"
               disabled={isRemovePending}
-              onClick={() => setDeleteDialogOpen(true)}
+              onClick={() => setArchiveDialogOpen(true)}
             >
-              <IconTrash />
+              <IconArchive />
               <span className="sr-only">Delete</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Delete chat</TooltipContent>
+          <TooltipContent>Archive chat</TooltipContent>
         </Tooltip>
       </div>
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+      <AlertDialog open={archiveDialogOpen} onOpenChange={setArchiveDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete your chat message and remove your
-              data from our servers.
+              This chat is active and will be removed from the sidebar.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -71,10 +69,8 @@ export function SidebarActions({ chat, removeChat }: SidebarActionsProps) {
                 event.preventDefault();
                 // @ts-ignore
                 startRemoveTransition(async () => {
-                  const result = await removeChat({
+                  const result = await archiveChat({
                     id: chat.id
-                    // TODO required for revalidate
-                    // path: chat.path
                   });
 
                   if (result && 'error' in result) {
@@ -86,17 +82,16 @@ export function SidebarActions({ chat, removeChat }: SidebarActionsProps) {
                     return;
                   }
 
-                  setDeleteDialogOpen(false);
-                  router.refresh();
-                  router.push('/');
+                  setArchiveDialogOpen(false);
+                  customRevalidateTag('conversations');
                   toast({
-                    title: 'Chat deleted'
+                    title: 'Chat archived'
                   });
                 });
               }}
             >
               {isRemovePending && <IconSpinner className="mr-2 animate-spin" />}
-              Delete
+              Archive
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

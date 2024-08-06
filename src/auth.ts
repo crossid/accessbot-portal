@@ -1,24 +1,9 @@
 import NextAuth from 'next-auth';
-import Hydra from 'next-auth/providers/ory-hydra';
-import Auth0, { Auth0Profile } from 'next-auth/providers/auth0';
-import { authConfig } from './auth.config';
+import Auth0 from 'next-auth/providers/auth0';
 import { NextRequest } from 'next/server';
+import { authConfig } from './auth.config';
 
-const hydra = Hydra({
-  clientId: process.env.OAUTH2_CLIENT_ID,
-  clientSecret: process.env.OAUTH2_CLIENT_SECRET,
-  issuer: process.env.OAUTH2_ISSUER,
-  redirectProxyUrl: 'http://acme.local.crossid.io:8006/api/auth',
-  authorization: {
-    params: {
-      scope: 'openid offline',
-      audience: process.env.OAUTH2_AUDIENCE,
-      state: 'asldfjlsakdjfklsajdfkljasdklfjsakldfj'
-    }
-  }
-});
-
-function createAuth0(organization: string) {
+function createAuth0() {
   return Auth0({
     issuer: process.env.OAUTH2_ISSUER,
     clientId: process.env.OAUTH2_CLIENT_ID,
@@ -26,8 +11,6 @@ function createAuth0(organization: string) {
     token: { params: { audience: process.env.OAUTH2_AUDIENCE } },
     authorization: {
       params: {
-        //     connection: "google-oauth2",
-        organization,
         scope: 'openid profile email offline_access',
         audience: process.env.OAUTH2_AUDIENCE
       }
@@ -36,16 +19,16 @@ function createAuth0(organization: string) {
 }
 
 function createProviders(req: NextRequest | undefined) {
-  const providerNames = process.env.AUTH_PROVIDERS?.split(',') || [];
+  const providerNames = process.env.AUTH_PROVIDERS?.split(',') || ['auth0'];
   const providers = [];
+
   for (const provider of providerNames) {
-    if (provider == 'hydra') {
-      providers.push(hydra);
-    } else if (provider == 'auth0') {
-      const workspace_id = req?.headers.get('x-workspace-id') || '';
-      providers.push(createAuth0(workspace_id));
+    if (provider == 'auth0') {
+      const p = createAuth0();
+      providers.push(p);
     }
   }
+
   return providers;
 }
 

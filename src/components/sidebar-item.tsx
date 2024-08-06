@@ -7,10 +7,11 @@ import { usePathname } from 'next/navigation';
 
 import { motion } from 'framer-motion';
 
-import { buttonVariants } from '@/components/ui/button';
 import { useLocalStorage } from '@/lib/hooks/use-local-storage';
 import { type Conversation } from '@/lib/types';
 import { cn } from '@/lib/utils';
+import { IconMessageCheck, IconMessageQuestion } from './ui/icons';
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 interface SidebarItemProps {
   index: number;
@@ -21,7 +22,7 @@ interface SidebarItemProps {
 export function SidebarItem({ index, chat, children }: SidebarItemProps) {
   const pathname = usePathname();
 
-  const path = `/conversations/${chat.external_id}`;
+  const path = `/conversations/${chat.id}`;
   const title = chat.messages?.[0]?.content.substring(0, 100);
 
   const isActive = pathname === path;
@@ -32,7 +33,11 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
 
   return (
     <motion.div
-      className="relative h-8"
+      className={cn(
+        isActive && 'bg-primary/10',
+        'flex h-8 items-center gap-1 font-semibold transition-colors',
+        !isActive && 'hover:bg-secondary/80'
+      )}
       variants={{
         initial: {
           height: 0,
@@ -50,7 +55,7 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
         ease: 'easeIn'
       }}
     >
-      <div className="absolute left-2 top-1 flex size-6 items-center justify-center">
+      <div className="flex size-6 items-center justify-center">
         {/* {chat.sharePath ? (
           <Tooltip delayDuration={1000}>
             <TooltipTrigger
@@ -64,17 +69,27 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
         ) : (
           <IconMessage className="mr-2" />
         )} */}
+        <Tooltip delayDuration={500}>
+          <TooltipTrigger
+            tabIndex={-1}
+            className="focus:bg-muted focus:ring-1 focus:ring-ring"
+          >
+            {chat.type === 'recommendation' ? (
+              <IconMessageQuestion className="ml-1" />
+            ) : (
+              <IconMessageCheck className="ml-1" />
+            )}
+          </TooltipTrigger>
+          <TooltipContent>
+            {chat.type === 'recommendation'
+              ? 'This is a recommendation for you.'
+              : 'This is a request that awaits your approval response.'}
+          </TooltipContent>
+        </Tooltip>
       </div>
-      <Link
-        href={path}
-        className={cn(
-          buttonVariants({ variant: 'ghost' }),
-          'group w-full px-8 transition-colors hover:bg-zinc-200/40 dark:hover:bg-zinc-300/10',
-          isActive && 'bg-zinc-200 pr-16 font-semibold dark:bg-zinc-800'
-        )}
-      >
+      <Link href={path} className="w-full">
         <div
-          className="relative max-h-5 flex-1 select-none overflow-hidden text-ellipsis break-all"
+          className="relative flex-1 select-none overflow-hidden text-ellipsis break-all"
           title={title}
         >
           <span className="whitespace-nowrap">
@@ -115,7 +130,7 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
           </span>
         </div>
       </Link>
-      {isActive && <div className="absolute right-2 top-1">{children}</div>}
+      {isActive && <div className="pr-1">{children}</div>}
     </motion.div>
   );
 }

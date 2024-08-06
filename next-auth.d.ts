@@ -1,11 +1,22 @@
-import { type DefaultSession } from 'next-auth'
+import { type DefaultSession } from 'next-auth';
+import 'next-auth/jwt';
 
 export type ExtendedUser = DefaultSession['user'] & {
-  accessToken: string
-}
+  workspaceId: string;
+};
 
 declare module 'next-auth' {
   interface Session {
-    user: ExtendedUser
+    accessToken?: string;
+    user: ExtendedUser;
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    accessToken?: string;
+    ext?: {
+      org_id?: string;
+    };
   }
 }

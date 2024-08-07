@@ -27,7 +27,7 @@ export function Chat({ id, className, session }: ChatProps) {
 
   useEffect(() => {
     if (!id && aiState.chatId) {
-      router.replace(`/conversations/${aiState.chatId}`);
+      router.replace(`/conversation/${aiState.chatId}`);
     }
   }, [id, router, aiState.chatId]);
 

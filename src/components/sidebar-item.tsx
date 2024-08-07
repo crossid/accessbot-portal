@@ -22,7 +22,7 @@ interface SidebarItemProps {
 export function SidebarItem({ index, chat, children }: SidebarItemProps) {
   const pathname = usePathname();
 
-  const path = `/conversations/${chat.id}`;
+  const path = `/conversation/${chat.id}`;
   const title = chat.messages?.[0]?.content.substring(0, 100);
 
   const isActive = pathname === path;

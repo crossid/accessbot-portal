@@ -2,7 +2,7 @@ import { signIn } from '@/auth';
 import { LoginButton } from '@/components/login-button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PublicWorkspace } from '@/lib/types';
-import { getBackendHost, getServerAPIURL } from '@/lib/urls';
+import { getHTTPRequestHost, getUIServerAPIURL } from '@/lib/urls';
 import { headers } from 'next/headers';
 
 // TODO maybe this type exist in next-auth
@@ -17,7 +17,7 @@ interface ProviderType {
 const workspaces: { [key: string]: PublicWorkspace } = {};
 
 async function getWorkspace(): Promise<PublicWorkspace> {
-  let host = getBackendHost();
+  let host = getHTTPRequestHost();
   if (!host) {
     throw new Error('No host');
   }
@@ -50,7 +50,7 @@ export default async function Page({
 
   // TODO maybe authjs provides a way to get providers in server
   const providers = await fetch(
-    `${getServerAPIURL(_headers)}/auth/providers`
+    `${getUIServerAPIURL(_headers)}/auth/providers`
   ).then((res) => res.json());
 
   const providerArray: (ProviderType & { provider: string })[] = Object.keys(

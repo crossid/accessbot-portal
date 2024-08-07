@@ -2,8 +2,8 @@ import { core } from '@/config/core';
 import { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers';
 import { headers } from 'next/headers';
 
-export function getBackendHost() {
-  // TODO is it safe? this host is getting access tokens!
+export function getHTTPRequestHost() {
+  // this is the domain of the workspace that the user writes in the browser
   return headers().get('x-forwarded-host');
 }
 
@@ -12,26 +12,17 @@ export function getBackendHost() {
  * Currently expecting the backend to be relative to the host
  */
 export function getBackendURL() {
-  let host = getBackendHost();
-  if (host) {
-    return `https://${host}`;
-  } else {
-    throw new Error('No host');
-  }
+  return process.env.BACKEND_URI;
 }
 
 export function getBackendAPIURL() {
   return `${getBackendURL()}/api`;
 }
 
-export function getServerURL(headers: ReadonlyHeaders) {
-  let host = headers.get('x-forwarded-host');
-  let proto = headers.get('x-forwarded-proto');
-  // let port = headers().get('x-forwarded-port')
-
-  return `${proto}://${host}/${core.basePath}`;
+export function getUIServerURL(headers: ReadonlyHeaders) {
+  return process.env.UI_SERVER_URI + "/" + core.basePath;
 }
 
-export function getServerAPIURL(headers: ReadonlyHeaders) {
-  return `${getServerURL(headers)}/api`;
+export function getUIServerAPIURL(headers: ReadonlyHeaders) {
+  return `${getUIServerURL(headers)}/api`;
 }

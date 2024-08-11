@@ -29,7 +29,12 @@ async function getWorkspace(): Promise<PublicWorkspace> {
     return Promise.resolve(workspaces[host]);
   }
 
-  const resp = await fetch(`${getBackendAPIURL()}/workspaces/public/${host}`);
+  const resp = await fetch(`${getBackendAPIURL()}/workspaces/public`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-forwarded-host': host
+    }
+  });
 
   if (resp.status != 200 && resp.status != 404) {
     throw new Error('Failed to fetch workspace');

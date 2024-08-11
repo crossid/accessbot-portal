@@ -2,7 +2,11 @@ import { signIn } from '@/auth';
 import { LoginButton } from '@/components/login-button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PublicWorkspace } from '@/lib/types';
-import { getHTTPRequestHost, getUIServerAPIURL } from '@/lib/urls';
+import {
+  getBackendAPIURL,
+  getHTTPRequestHost,
+  getUIServerAPIURL
+} from '@/lib/urls';
 import { headers } from 'next/headers';
 
 // TODO maybe this type exist in next-auth
@@ -25,7 +29,12 @@ async function getWorkspace(): Promise<PublicWorkspace> {
     return Promise.resolve(workspaces[host]);
   }
 
-  const resp = await fetch(`http://${host}/api/workspaces/public`);
+  const resp = await fetch(`${getBackendAPIURL()}/workspaces/public`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-forwarded-host': host
+    }
+  });
 
   if (resp.status != 200 && resp.status != 404) {
     throw new Error('Failed to fetch workspace');

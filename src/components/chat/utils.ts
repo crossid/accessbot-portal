@@ -65,8 +65,9 @@ export function runAICompletion(url: string, init: RequestInit) {
             return;
           } else if (tokenObj.type === 'content') {
             if (
-              tokenObj.name !== 'Information' &&
-              tokenObj.name !== 'DataOwner'
+              tokenObj.name !== "Information" &&
+              tokenObj.name !== "DataOwner" &&
+              tokenObj.name !== "guardrail"
             ) {
               console.debug('Ignoring content token: ', tokenObj);
               return;

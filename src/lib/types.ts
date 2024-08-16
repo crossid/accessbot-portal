@@ -9,7 +9,7 @@ export interface ListModels<T> {
 export const publicWorkspaceSchema = z.object({
   id: z.string(),
   external_id: z.string(),
-  unique_name: z.string(),
+  name: z.string(),
   display_name: z.string(),
   logo_url: z.string().url().optional()
 });
